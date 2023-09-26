@@ -57,6 +57,16 @@ bool hash_table_insert(person *p) {
 	return true;
 }
 
+person *hash_table_lookup(char *name) {
+	int hash_code = hash(name);
+	if (hash_table[hash_code] != NULL &&
+		strncmp(hash_table[hash_code]->name, name, MAX_NAME)) {
+			return hash_table[hash_code];
+	} else {
+		return NULL;
+	}
+}
+
 int main() {
 	
 	init_hash_table();
@@ -67,8 +77,28 @@ int main() {
 	hash_table_insert(&melanie);
 	person jacob = {.name="Jacob", .birth_year=1997};
 	hash_table_insert(&jacob);
-
+	
 	print_table();
+
+	person *tmp = hash_table_lookup("Ronnie");
+
+	if (tmp == NULL) {
+		printf("Not found!\n");
+	} else {
+		printf("Found %s.\n", tmp->name);
+		printf("Hash code is %u\n", hash("Ronnie"));
+	}
+
+
+	tmp = hash_table_lookup("Ronaldinho");
+	if (tmp == NULL) {
+        	printf("Not found!\n");
+        } else {
+        	printf("Found %s.\n", tmp->name);
+        	printf("Hash code is %u\n", hash("Ronaldinho"));
+	}
+
+
 
 	/*
 	printf("Tony => %u\n", hash("Tony"));
